@@ -45,6 +45,18 @@ O comando `pip freeze` lista todos os pacotes instalados no formato **nome==vers
 ## Se for utilizar o Colab
 Os comandos `pip` e **linux** são executados usando uma exclamação na frente, ex: `!pip` ou `!mkdir`.
 
-### Foi utilizado o python na versão 3.10.12 para as atividades e exemplos do Cap1
+### Requerimentos dos códigos dos capítulos
+Capítulo 1:
+* Python na versão 3.10.12
+* Consulte os requerimentos do capítulo 1 [aqui!!!](https://github.com/tiagosouzatfs/visao_computacional/blob/main/cap1/requirements.txt)
 
-Consulte os requerimentos do capítulo 1 [aqui!!!](https://github.com/tiagosouzatfs/visao_computacional/blob/main/cap1/requirements.txt)
+Capítulo 2:
+* Os requerimentos e bibliotecas estão no próprio notebook
+
+Capítulo 3:
+* Os requerimentos e bibliotecas estão no próprio notebook
+
+Capítulo 4:
+* Os requerimentos e bibliotecas estão no próprio notebook
+
+Trabalho Final:
