@@ -52,3 +52,11 @@ Capítulo 1:
 
 Capítulo 2:
 * Os requerimentos e bibliotecas estão no próprio notebook
+
+Capítulo 3:
+* Os requerimentos e bibliotecas estão no próprio notebook
+
+Capítulo 4:
+* Os requerimentos e bibliotecas estão no próprio notebook
+
+Trabalho Final:
