@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 import autokeras as ak
-#from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 from tensorflow.keras.utils import load_img, img_to_array
+
 
 class AKModel():
     def __init__(self,
@@ -28,7 +28,8 @@ class AKModel():
         print("Leitura de csvs")
 
         # Carregar imagens manualmente a partir dos caminhos
-        def load_images(paths, target_size=(224, 224)):
+        #def load_images(paths, target_size=(224, 224)):
+        def load_images(paths, target_size=(128, 128)):
             return np.array([
                 img_to_array(load_img(path, target_size=target_size)) / 255.0
                 for path in paths
@@ -41,9 +42,9 @@ class AKModel():
         #X_test = load_images(df_metadata_test["paths_images_test"])
         #y_test = df_metadata_test["diagnosis"].values
 
-        clf = ak.ImageClassifier(overwrite=True, max_trials=5)
+        clf = ak.ImageClassifier(overwrite=True, max_trials=2)
         
-        clf.fit(X_train, y_train, epochs=10)
+        clf.fit(X_train, y_train, epochs=15)
         
         #loss, acc = clf.evaluate(X_test, y_test)
         #print(f"Acurácia no conjunto de teste: {acc:.4f}")
