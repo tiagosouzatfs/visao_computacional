@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import numpy as np
 import requests
 import zipfile
 import io
@@ -12,10 +11,10 @@ class DataPreparation:
     def __init__(self,
                  download_url: str = "https://physionet.org/static/published-projects/ptb-xl/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3.zip",
                  download_dir: str = "data",
-                 work_dir: str = "data/physionet",
+                 work_dir: str = os.path.join("data", "physionet"),
                  metadata_ecg_file: str = "ptbxl_database.csv",
-                 images_dir: str = "ecg/images",
-                 csv_dir: str = "ecg/csv",
+                 images_dir: str = os.path.join("ecg", "images"),
+                 csv_dir: str = os.path.join("ecg", "csv"),
                  train_subdir: str = "train",
                  test_subdir: str = "test"):
         
@@ -114,22 +113,18 @@ class DataPreparation:
         df_shuffled = df_metadata.sample(frac=1, random_state=42).reset_index(drop=True)
         
         # Separar
-        df_metadata_train = df_shuffled.iloc[:15000]
+        self.df_metadata_train = df_shuffled.iloc[:15000]
         #print(self.metadata_train.head())
-        print(f"Metadados de treinamento carregados. {len(df_metadata_train)} registros encontrados.")
-        df_metadata_test = df_shuffled.iloc[15001:]
+        print(f"Metadados de treinamento carregados. {len(self.df_metadata_train)} registros encontrados.")
+        self.df_metadata_test = df_shuffled.iloc[15001:]
         #print(self.metadata_test.head())
-        print(f"Metadados de teste carregados. {len(df_metadata_test)} registros encontrados.")
+        print(f"Metadados de teste carregados. {len(self.df_metadata_test)} registros encontrados.")
 
         # Salvando datasets
         print("Salvando dataset de treinamento ...")
-        df_metadata_train.to_csv(f"{self.metadata_dir_train}/df_metadata_train.csv", sep=';', encoding='utf-8')
+        self.df_metadata_train.to_csv(os.path.join(self.metadata_dir_train, "df_metadata_train.csv"), sep=';', encoding='utf-8')
         print("Salvando dataset de teste ...")
-        df_metadata_test.to_csv(f"{self.metadata_dir_test}/df_metadata_test.csv", sep=';', encoding='utf-8')
-
-        list_metadata_dataset = [df_metadata_train, df_metadata_test]
-
-        return list_metadata_dataset
+        self.df_metadata_test.to_csv(os.path.join(self.metadata_dir_test, "df_metadata_test.csv"), sep=';', encoding='utf-8')
 
     # Usa apenas o primeiro canal
     def _ecg_to_png(self, record_path: str, output_path: str, channel: int=0): 
@@ -165,10 +160,10 @@ class DataPreparation:
         """
         
         path_images_dir = [self.images_dir_train, self.images_dir_test]   
-        #list_metadata_dataset = [self.df_metadata_train, self.df_metadata_test]
+        list_metadata_dataset = [self.df_metadata_train, self.df_metadata_test]
         i=0
 
-        for dataset in self.load_metadata():
+        for dataset in list_metadata_dataset:
             count_plot = 0
 
             for idx, row in dataset.iterrows():

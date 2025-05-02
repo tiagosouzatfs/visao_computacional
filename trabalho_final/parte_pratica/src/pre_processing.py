@@ -1,11 +1,13 @@
 import os
 import pandas as pd
+from typing import Literal
+
 
 class PreProcessing():
     def __init__(self,
-                 work_dir: str = "data/physionet",
-                 images_dir: str = "ecg/images",
-                 csv_dir: str = "ecg/csv",
+                 work_dir: str = os.path.join("data", "physionet"),
+                 images_dir: str = os.path.join("ecg", "images"),
+                 csv_dir: str = os.path.join("ecg", "csv"),
                  train_subdir: str = "train",
                  test_subdir: str = "test"):
         
@@ -32,9 +34,15 @@ class PreProcessing():
     def _create_dict_paths_images(self, list_paths_images: list) -> dict:
         """Cria um dicionário "id da imagem" (corresponde ao ecg_id) -> "path da imagem"
         """
+        os_name = str(os.name) 
+        # Detect OS
+        if os_name == "nt":
+            delimiter = '\\'
+        else:
+            delimiter = '/'
 
         dict_paths_images = {
-            path_image.split('/')[-1]: path_image
+            path_image.split(delimiter)[-1]: path_image
             for path_image in list_paths_images
         }
 
@@ -45,7 +53,7 @@ class PreProcessing():
         """ 
 
         ################# Treinamento ##################
-        self.df_metadata_train = pd.read_csv(f"{self.metadata_dir_train}/df_metadata_train.csv", sep=";")
+        self.df_metadata_train = pd.read_csv(os.path.join(self.metadata_dir_train, "df_metadata_train.csv"), sep=";")
 
         # Remove a coluna "Unnamed: 0" (lixo que foi ficando das transformações)
         self.df_metadata_train = self.df_metadata_train.drop(columns=["Unnamed: 0"])
@@ -55,10 +63,11 @@ class PreProcessing():
 
         # Gerando os paths das imagens na pasta de treinamento
         list_paths_images_train = self._generate_path_images(self.images_dir_train)
+        #print(list_paths_images_train)
 
         # Reorganiza os caminhos das imagens conforme a ordem da coluna "ecg_id"
         dict_paths_images_train_organized = self._create_dict_paths_images(list_paths_images_train)
-        #print(dict_paths_images_train_organized)
+        print(dict_paths_images_train_organized)
         #print(len(dict_paths_images_train_organized))
         list_paths_images_train_organized = self.df_metadata_train["ecg_id"].apply(
             lambda x: dict_paths_images_train_organized.get(str(x))
@@ -75,14 +84,14 @@ class PreProcessing():
         self.df_metadata_train = self.df_metadata_train[new_order_columns_train]
 
         # Salvar sobrescrevendo o dataset antigo de treinamento
-        self.df_metadata_train.to_csv(f"{self.metadata_dir_train}/df_metadata_train.csv", sep=';')
+        self.df_metadata_train.to_csv(os.path.join(self.metadata_dir_train, "df_metadata_train.csv"), sep=";")
 
         # Dataset final de treinamento com colunas organizadas
-        print(self.df_metadata_train.sample(5))
+        print(self.df_metadata_train.sample(10))
 
 
         ################# Testes ##################
-        self.df_metadata_test = pd.read_csv(f"{self.metadata_dir_test}/df_metadata_test.csv", sep=";")
+        self.df_metadata_test = pd.read_csv(os.path.join(self.metadata_dir_test, "df_metadata_test.csv"), sep=";")
 
         # Remove a coluna "Unnamed: 0" (lixo que foi ficando das transformações)
         self.df_metadata_test = self.df_metadata_test.drop(columns=["Unnamed: 0"])
@@ -112,7 +121,7 @@ class PreProcessing():
         self.df_metadata_test = self.df_metadata_test[new_order_columns_test]
 
         # Salvar sobrescrevendo o dataset antigo de testes
-        self.df_metadata_test.to_csv(f"{self.metadata_dir_test}/df_metadata_test.csv", sep=';')
+        self.df_metadata_test.to_csv(os.path.join(self.metadata_dir_test, "df_metadata_test.csv"), sep=";")
 
         # Dataset final de testes com colunas organizadas
-        print(self.df_metadata_test.sample(5))
+        print(self.df_metadata_test.sample(10))

@@ -1,12 +1,15 @@
 import os
 import pandas as pd
 import autokeras as ak
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+from tensorflow.keras.utils import load_img, img_to_array
 
 class AKModel():
     def __init__(self,
-                 work_dir: str = "data/physionet",
-                 images_dir: str = "ecg/images",
-                 csv_dir: str = "ecg/csv",
+                 work_dir: str = os.path.join("data", "physionet"),
+                 images_dir: str = os.path.join("ecg", "images"),
+                 csv_dir: str = os.path.join("ecg", "csv"),
                  train_subdir: str = "train",
                  test_subdir: str = "test"):
         
@@ -17,25 +20,34 @@ class AKModel():
         self.images_dir_test = os.path.join(images_dir, test_subdir)
 
 
-    def load_model(self):
-        pass
-        # Cria o ImageClassifier
-        #clf = ak.ImageClassifier(overwrite=True, max_trials=2)  # 5 tentativas diferentes de redes automáticas
+    def run(self):
 
+        df_metadata_train = pd.read_csv(os.path.join(self.metadata_dir_train, "df_metadata_train.csv"), sep=";")
+        df_metadata_test = pd.read_csv(os.path.join(self.metadata_dir_test, "df_metadata_test.csv"), sep=";")
 
-        # Treina usando o caminho das imagens + label
-        #clf.fit(x=df['image_path'].tolist(), y=df['label'].tolist(), epochs=10)
+        df_metadata_train["paths_images_train"] = df_metadata_train["paths_images_train"].astype(str)
+        df_metadata_test["paths_images_test"] = df_metadata_test["paths_images_test"].astype(str)
 
+        print("Leitura de csvs")
 
-        #clf.fit(x=df['image_path'].tolist(), y=df['label'].tolist(), epochs=10)
+        # Carregar imagens manualmente a partir dos caminhos
+        def load_images(paths, target_size=(224, 224)):
+            return np.array([
+                img_to_array(load_img(path, target_size=target_size)) / 255.0
+                for path in paths
+            ])
 
+        # Carrega os dados
+        X_train = load_images(df_metadata_train["paths_images_train"])
+        y_train = df_metadata_train["diagnosis"].values
 
+        X_test = load_images(df_metadata_test["paths_images_test"])
+        y_test = df_metadata_test["diagnosis"].values
 
+        # AutoKeras
+        #import autokeras as ak
 
-
-
-        # Depois para testar
-        #test_df = pd.read_csv('/content/ecg_labels_3classes_test.csv')
-        #predictions = clf.predict(test_df['image_path'].tolist())
-
-    
+        clf = ak.ImageClassifier(overwrite=True, max_trials=5)
+        clf.fit(X_train, y_train, epochs=10)
+        loss, acc = clf.evaluate(X_test, y_test)
+        print(f"Acurácia no conjunto de teste: {acc:.4f}")

@@ -11,7 +11,7 @@ def main():
     #pipeline_etl.download_data()
 
     # 2. Carrega os metadados principais
-    #pipeline_etl.load_metadata()
+    pipeline_etl.load_metadata()
 
     # 3. Gera as imagens dos sinais para o treinamento e teste
     #pipeline_etl.signals_to_images()
@@ -28,7 +28,7 @@ def main():
     #pipeline_model = AKModel()
 
     # 5. Carrega e executa o modelo
-    #pipeline_model.load_model()
+    #pipeline_model.run()
 
 
 if __name__ == "__main__":
