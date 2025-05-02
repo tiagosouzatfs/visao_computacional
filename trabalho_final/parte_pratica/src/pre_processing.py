@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-from typing import Literal
 
 
 class PreProcessing():
@@ -67,7 +66,7 @@ class PreProcessing():
 
         # Reorganiza os caminhos das imagens conforme a ordem da coluna "ecg_id"
         dict_paths_images_train_organized = self._create_dict_paths_images(list_paths_images_train)
-        print(dict_paths_images_train_organized)
+        #print(dict_paths_images_train_organized)
         #print(len(dict_paths_images_train_organized))
         list_paths_images_train_organized = self.df_metadata_train["ecg_id"].apply(
             lambda x: dict_paths_images_train_organized.get(str(x))
