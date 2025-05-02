@@ -25,10 +25,10 @@ def main():
 
 
     # Cria a pipeline de execução do modelo
-    #pipeline_model = AKModel()
+    pipeline_model = AKModel()
 
     # 5. Carrega e executa o modelo
-    #pipeline_model.run()
+    pipeline_model.run()
 
 
 if __name__ == "__main__":
