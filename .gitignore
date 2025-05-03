@@ -3,3 +3,5 @@
 **/physionet/
 **/train/
 **/test/
+**/image_classifier/
+**/results/images/
