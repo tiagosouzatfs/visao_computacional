@@ -3,6 +3,8 @@ Repositório para armazenar o conteúdo do módulo de Visão Computacional do PP
 
 ### Para reproduzir esses exercícios e atividades é opcional mas altamente recomendado utilizar ambiente virtuais com python para utilizar os requerimentos de bibliotecas e suas versões. Pode-se utilizar o colab, jupyter ou o vscode com a extensão do jupyter para a execução.
 
+**Verifique o conteúdo da disciplina** [aqui!!!](https://heltonmaia.com/computervision/intro.html)
+
 ### Criando ambientes virtuais com python
 Padrão Python
 ```
@@ -57,6 +59,9 @@ Capítulo 3:
 * Os requerimentos e bibliotecas estão no próprio notebook
 
 Capítulo 4:
-* Os requerimentos e bibliotecas estão no próprio notebook
+* Não foram realizados exercícios
 
 Trabalho Final:
+* Utilize GPU, com CPU vai durar muito tempo
+* Python na versão 3.10.12
+* Consulte os requerimentos do trabalho final [aqui!!!](https://github.com/tiagosouzatfs/visao_computacional/blob/main/trabalho_final/parte_pratica/requirements.txt)
