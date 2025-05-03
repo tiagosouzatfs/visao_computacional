@@ -8,13 +8,13 @@ def main():
     pipeline_etl = DataPreparation()
 
     # 1. Baixa os dados do dataset e seus metadados
-    #pipeline_etl.download_data()
+    pipeline_etl.download_data()
 
     # 2. Carrega os metadados principais
     pipeline_etl.load_metadata()
 
     # 3. Gera as imagens dos sinais para o treinamento e teste
-    #pipeline_etl.signals_to_images()
+    pipeline_etl.signals_to_images()
 
 
     # Cria a pipeline de pré-processamento
