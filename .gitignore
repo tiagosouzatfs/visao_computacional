@@ -1,7 +1,9 @@
 **/env/
 **/__pycache__/
 **/physionet/
-**/train/
-**/test/
+**/csv/train/
+**/csv/test/
+**/images/train/
+**/images/test/
 **/image_classifier/
 **/results/images/
